@@ -1,4 +1,17 @@
-# Agents and Agentic Workflows with LLMs - Complete Tutorial
+<a name="readme-top"></a>
+
+<div align="center">
+  <img src="./assets/ai_agents_logo.svg" alt="Logo" width="200">
+  <h1 align="center">AI Agents & Agentic Workflows<br/>Complete Tutorial</h1>
+</div>
+
+<div align="center">
+  <a href="#"><img src="https://img.shields.io/badge/Documentation-000?logo=googledocs&logoColor=FFE165&style=for-the-badge" alt="Documentation"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Slack-Join%20Us-red?logo=slack&logoColor=white&style=for-the-badge" alt="Join our Slack community"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Discord-Join%20Us-purple?logo=discord&logoColor=white&style=for-the-badge" alt="Join our Discord community"></a>
+  <a href="#"><img src="https://img.shields.io/badge/GAIA%20Benchmark-000?logoColor=FFE165&logo=huggingface&style=for-the-badge" alt="Evaluation Benchmark Score"></a>
+  <hr>
+</div>
 
 ## Table of Contents
 1. [Introduction to Agents](#introduction-to-agents)
@@ -31,16 +44,23 @@ An AI Agent is an autonomous system that can perceive its environment, make deci
 ## Difference between LLM and AI Agents.
 
 
+## LLM (Large Language Model) Flow
+
 ```mermaid
 flowchart TB
-
     subgraph LLM["🧠 LLM (Large Language Model)"]
         L1["User Prompt"]
         L2["LLM Processes Input"]
         L3["Text Output"]
         L1 --> L2 --> L3
     end
+    style LLM fill:#e3f2fd,stroke:#1976d2,color:#0d47a1,font-weight:bold
+```
 
+## AI Agent Flow
+
+```mermaid
+flowchart TB
     subgraph Agent["🤖 AI Agent"]
         A1["User Goal / Task Instruction"]
         A2["Planner & Reasoner"]
@@ -48,7 +68,6 @@ flowchart TB
         A4["Memory (Vector DB / Logs)"]
         A5["LLM (Used Internally)"]
         A6["Environment / Action Executor"]
-
         A1 --> A2
         A2 --> A4
         A2 --> A3
@@ -56,11 +75,7 @@ flowchart TB
         A3 --> A6
         A5 --> A3
     end
-
-    %% Styles
-    style LLM fill:#e3f2fd,stroke:#1976d2,color:#0d47a1,font-weight:bold
     style Agent fill:#e8f5e9,stroke:#388e3c,color:#1b5e20,font-weight:bold
-
 ```
 
 
@@ -567,14 +582,14 @@ class ToolUseAgent:
 
 ```python
 class WeatherTool:
-    name = "weather"
+    name = "get_weather"
     
     def execute(self, location):
         # Mock API call
         return {"temperature": "72°F", "condition": "sunny"}
 
 class CalculatorTool:
-    name = "calculator"
+    name = "calculate"
     
     def execute(self, expression):
         try:
@@ -681,70 +696,97 @@ Multiple specialized agents collaborate to solve complex problems.
 #### Architecture:
 
 ```python
-class MultiAgentSystem:
+class MultiAgentCoordinator:
     def __init__(self):
         self.agents = {}
-        self.coordinator = CoordinatorAgent()
-        
-    def add_agent(self, name, agent):
+        self.shared_memory = {}
+    
+    def add_agent(self, name: str, agent: Agent):
         self.agents[name] = agent
+    
+    async def coordinate_task(self, task: str):
+        # Determine which agents are needed
+        coordination_prompt = f"""
+        Task: {task}
+        Available agents: {list(self.agents.keys())}
         
-    def process_request(self, request):
-        # Coordinator determines which agents to involve
-        plan = self.coordinator.create_collaboration_plan(request, self.agents)
+        Determine which agents should work on this task and in what order.
+        Return as JSON: {{"workflow": [{"agent": "name", "subtask": "description"}]}}
+        """
         
-        # Execute collaborative workflow
-        return self.execute_collaborative_workflow(plan)
+        # This would use an LLM to create the workflow
+        workflow = self.plan_workflow(coordination_prompt)
+        
+        results = {}
+        for step in workflow:
+            agent_name = step["agent"]
+            subtask = step["subtask"]
+            
+            if agent_name in self.agents:
+                result = await self.execute_agent_task(agent_name, subtask, results)
+                results[agent_name] = result
+        
+        return self.synthesize_results(results, task)
+    
+    async def execute_agent_task(self, agent_name: str, task: str, context: dict):
+        agent = self.agents[agent_name]
+        
+        # Add context from previous agents
+        context_str = "\n".join([f"{k}: {v}" for k, v in context.items()])
+        enhanced_task = f"{task}\n\nContext from other agents:\n{context_str}"
+        
+        return await agent.arun(enhanced_task)
 
-class ResearchAgent:
-    """Specializes in information gathering"""
-    def research(self, topic):
-        # Implementation for research tasks
-        pass
+# Specialized agents
+research_agent = initialize_agent(
+    tools=[search_tool, database_tool],
+    llm=llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION
+)
 
-class AnalysisAgent:
-    """Specializes in data analysis"""
-    def analyze(self, data):
-        # Implementation for analysis tasks
-        pass
+analysis_agent = initialize_agent(
+    tools=[calculator_tool, statistics_tool],
+    llm=llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION
+)
 
-class WritingAgent:
-    """Specializes in content creation"""
-    def write(self, content_brief):
-        # Implementation for writing tasks
-        pass
+writing_agent = initialize_agent(
+    tools=[grammar_tool, style_tool],
+    llm=llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION
+)
+
+# Coordinate agents
+coordinator = MultiAgentCoordinator()
+coordinator.add_agent("researcher", research_agent)
+coordinator.add_agent("analyst", analysis_agent)
+coordinator.add_agent("writer", writing_agent)
+
+# Execute complex task
+async def run_multi_agent_task():
+    task = "Create a comprehensive report on renewable energy market trends"
+    result = await coordinator.coordinate_task(task)
+    print(result)
+
+# Run the multi-agent system
+asyncio.run(run_multi_agent_task())
 ```
 
-#### Collaboration Example:
+---
 
-```python
-# Multi-agent workflow for market analysis
-system = MultiAgentSystem()
-system.add_agent("researcher", ResearchAgent())
-system.add_agent("analyst", AnalysisAgent())
-system.add_agent("writer", WritingAgent())
+## Insights from Google Cloud: What are AI Agents?
 
-request = "Create a comprehensive market analysis report for electric vehicles"
+Google Cloud defines AI agents as software entities that can autonomously perceive their environment, make decisions, and take actions to achieve specific goals. According to [Google Cloud's overview](https://cloud.google.com/discover/what-are-ai-agents):
 
-workflow = {
-    "phase_1": {
-        "agent": "researcher",
-        "task": "Gather market data, competitor information, and industry trends"
-    },
-    "phase_2": {
-        "agent": "analyst", 
-        "task": "Analyze data for patterns, opportunities, and risks",
-        "input": "phase_1_output"
-    },
-    "phase_3": {
-        "agent": "writer",
-        "task": "Create professional report with insights and recommendations",
-        "input": ["phase_1_output", "phase_2_output"]
-    }
-}
-```
+- **AI agents are goal-oriented**: They are designed to accomplish tasks or objectives, often with minimal human intervention.
+- **Autonomy and Adaptability**: Agents can operate independently, adapt to changing environments, and learn from experience.
+- **Perception and Action**: They sense their environment (via data, APIs, sensors, etc.) and act upon it (by making API calls, triggering workflows, etc.).
+- **Types of Agents**: Google Cloud highlights a spectrum from simple rule-based agents to advanced learning agents capable of complex reasoning and collaboration.
+- **Applications**: Use cases include customer support bots, workflow automation, data analysis, and more.
 
-> **💡 TIP:** Multi-agent systems work best when agents have clearly defined specializations and communication protocols.
+> "AI agents are software programs that can perceive their environment, make decisions, and take actions to achieve specific goals. They can range from simple chatbots to complex systems that learn and adapt over time." — Google Cloud
+
+For more, see the full article: [What are AI agents? (Google Cloud)](https://cloud.google.com/discover/what-are-ai-agents)
 
 ---
 
@@ -1179,6 +1221,57 @@ from typing import List, Dict, Any
 class OpenSourceAgent:
     def __init__(self, model_name: str = "microsoft/DialoGPT-medium"):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModelForCausalLM.from_pretrained(model_name)
+        self.memory = []
+        self.max_length = 1000  # Adjust based on model and task
+    
+    def generate_response(self, user_input: str) -> str:
+        # Encode the new user input, add the eos_token and return a tensor
+        new_user_input_ids = self.tokenizer.encode(user_input + self.tokenizer.eos_token, return_tensors='pt')
+        
+        # Append new user input ids to the chat history
+        bot_input_ids = torch.cat([torch.tensor(self.memory), new_user_input_ids], dim=1) if self.memory else new_user_input_ids
+        
+        # Generate response from the model
+        chat_history_ids = self.model.generate(
+            bot_input_ids,
+            max_length=self.max_length,
+            pad_token_id=self.tokenizer.eos_token_id,
+            temperature=0.7,
+            top_p=0.9,
+            top_k=50,
+            do_sample=True
+        )
+        
+        # Get the predicted text
+        response = self.tokenizer.decode(chat_history_ids[:, bot_input_ids.shape[-1]:][0], skip_special_tokens=True)
+        
+        # Save the chat history
+        self.memory = bot_input_ids[0].tolist()
+        
+        return response
+
+# Usage Example
+def main():
+    # Initialize agent
+    agent = OpenSourceAgent(model_name="gpt2")
+    
+    # Example interactions
+    queries = [
+        "What's the weather like in New York?",
+        "Tell me a joke.",
+        "What's the capital of France?"
+    ]
+    
+    for query in queries:
+        print(f"\nUser: {query}")
+        response = agent.generate_response(query)
+        print(f"Agent: {response}")
+
+if __name__ == "__main__":
+    main()
+```
+
 ---
 
 ## LangChain Agent Examples
