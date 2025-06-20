@@ -28,6 +28,24 @@ An AI Agent is an autonomous system that can perceive its environment, make deci
 > **💡 TIP:** Think of agents as digital assistants that can actually *do* things, not just *tell* you what to do.
 
 ---
+## Difference between LLM and AI Agents.
+
+
+| Feature/Aspect              | LLM (Large Language Model)                         | AI Agent                                             |
+|----------------------------|----------------------------------------------------|------------------------------------------------------|
+| 🧠 Core Functionality       | Text generation, summarization, translation, Q&A   | Autonomous task execution using tools + context     |
+| 🎯 Goal                    | Respond accurately to input prompts                | Achieve specific goals with minimal human input      |
+| 🧩 Input/Output Style       | Stateless prompt → response                        | Stateful loop: observe → plan → act → learn          |
+| 🧰 Tool Usage               | Limited or none (unless instructed explicitly)     | Integrates with tools (APIs, databases, browsers)    |
+| 🧠 Memory/Context           | Short-term context window                         | Long-term memory, contextual grounding               |
+| 🔄 Autonomy                | Reactive, responds to prompts                     | Proactive, plans and executes sequences              |
+| 🔧 Architecture            | Single model inference                            | Orchestration of LLMs, tools, memory, reasoning loop |
+| 🕹️ Human Involvement       | Requires constant prompting                        | Minimal prompting, works towards goals independently |
+| 📦 Example Use Case        | Write a paragraph about climate change             | Research a topic, extract data, generate report      |
+| ⚡ Popular Frameworks       | OpenAI GPT, Anthropic Claude, LLaMA, Gemini        | AutoGPT, LangGraph, CrewAI, MetaGPT, OpenAgents      |
+| 🔐 Security Consideration  | Prompt injection, misuse of model                 | Tool misuse, sandboxing, permission control          |
+
+---
 
 ## Types of AI Agents
 
