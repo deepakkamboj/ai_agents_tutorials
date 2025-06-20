@@ -47,6 +47,72 @@ An AI Agent is an autonomous system that can perceive its environment, make deci
 
 ---
 
+
+## 🛠️ What Is **Function Calling** in LLMs?
+
+**Function calling** allows a language model (like OpenAI's GPT, Claude, or Gemini) to **call external functions, APIs, or services** based on user intent. Instead of just returning plain text, the model can identify when an action is needed, **form the function call with proper arguments**, and delegate the task to a system or tool.
+
+### 🧠 Example:
+
+**User:**
+
+> “What’s the weather in Seattle today?”
+
+**LLM with function calling:**  
+Instead of generating a generic response, it can:
+
+1.  Recognize the need to call `getWeather(location='Seattle')`
+    
+2.  Execute the function
+    
+3.  Return the result (e.g., "It's 72°F and sunny in Seattle.")
+    
+
+### Key Concepts:
+
+-   **LLM doesn’t perform the action directly**, it **formats** the function call.
+    
+-   You (the developer) must **register functions** and **connect the backend logic**.
+    
+-   **Stateless** – each call happens independently.
+    
+
+----------
+
+## 🤖 What Are **AI Agents**?
+
+**AI agents** go a step further. They are **autonomous systems** that:
+
+-   Can **plan**, **reason**, and **make decisions**
+    
+-   **Chain multiple function calls** across multiple steps
+    
+-   Maintain **memory/state** across a session
+    
+-   Use tools, APIs, or models **to complete goals, not just answer questions**
+    
+
+They often implement an **observe → think → act → loop** — giving them real-world usability for things like automation, research, debugging, or operations.
+
+---
+
+| Feature/Aspect            | Function Calling in LLMs                             | AI Agents                                               |
+|---------------------------|------------------------------------------------------|----------------------------------------------------------|
+| 🔍 Purpose                | Let LLMs trigger specific functions with parameters  | Achieve a goal by planning, reasoning, and using tools   |
+| 🧠 Intelligence            | Shallow: reactive to prompt → function               | Deeper: uses feedback loops, memory, and reasoning       |
+| 🔁 Workflow               | Single-turn function execution                       | Multi-step, stateful execution                           |
+| 🧰 Tool Usage             | Requires predefined function schema                  | Can select, switch, and chain tools dynamically          |
+| 🧱 Architecture           | LLM + schema + backend executor                      | LLM + planner + memory + tool-use + executor             |
+| 🧠 Memory/State           | Stateless per call                                   | Maintains memory across tasks or sessions                |
+| ⚙️ Execution Model        | LLM formats function call → API executes             | Agent decides which tools to use and when               |
+| 💬 Example Use Case       | Fetch current stock price                            | Monitor stock, analyze trend, trigger buy/sell alerts    |
+| 📦 Real-world Examples    | GPT-4 function calling, Claude tool use              | AutoGPT, CrewAI, LangGraph, OpenAgents                   |
+| 🎯 Goal Orientation       | Executes request                                      | Accomplishes mission with little/no prompting            |
+
+
+---
+
+
 ## Types of AI Agents
 
 ### 1. **Reactive Agents**
