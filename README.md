@@ -7,8 +7,12 @@
 
 <div align="center">
   <a href="#"><img src="https://img.shields.io/badge/Documentation-000?logo=googledocs&logoColor=FFE165&style=for-the-badge" alt="Documentation"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Slack-Join%20Us-red?logo=slack&logoColor=white&style=for-the-badge" alt="Join our Slack community"></a>
-  <a href="#"><img src="https://img.shields.io/badge/Discord-Join%20Us-purple?logo=discord&logoColor=white&style=for-the-badge" alt="Join our Discord community"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white&style=for-the-badge" alt="Python"></a>
+  <a href="#"><img src="https://img.shields.io/badge/OpenAI-412991?logo=openai&logoColor=white&style=for-the-badge" alt="OpenAI"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Hugging%20Face-f9d71c?logo=huggingface&logoColor=black&style=for-the-badge" alt="Hugging Face"></a>
+  <a href="#"><img src="https://img.shields.io/badge/LangChain-000000?logo=langchain&logoColor=white&style=for-the-badge" alt="LangChain"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Azure-0078D4?logo=microsoftazure&logoColor=white&style=for-the-badge" alt="Azure"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Mistral-000000?logo=data:image/svg+xml;base64,PHN2ZyBmaWxsPSJub25lIiBoZWlnaHQ9IjE2IiB2aWV3Qm94PSIwIDAgMjQgMTYiIHdpZHRoPSIyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iMTYiIHJ4PSI0IiBmaWxsPSIjZmZmIi8+PHBhdGggZD0iTTUgMTMuNWw0LTcuNSA0IDcuNSIgIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLXdpZHRoPSIxLjUiIGZpbGw9Im5vbmUiLz48L3N2Zz4=&style=for-the-badge" alt="Mistral"></a>
   <a href="#"><img src="https://img.shields.io/badge/GAIA%20Benchmark-000?logoColor=FFE165&logo=huggingface&style=for-the-badge" alt="Evaluation Benchmark Score"></a>
   <hr>
 </div>
