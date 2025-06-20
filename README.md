@@ -31,6 +31,38 @@ An AI Agent is an autonomous system that can perceive its environment, make deci
 ## Difference between LLM and AI Agents.
 
 
+```mermaid
+flowchart TB
+    subgraph LLM[🧠 LLM (Large Language Model)]
+        L1[User Prompt]
+        L2[LLM Processes Input]
+        L3[Text Output]
+        L1 --> L2 --> L3
+    end
+
+    subgraph Agent[🤖 AI Agent]
+        A1[User Goal / Task Instruction]
+        A2[Planner & Reasoner]
+        A3[Tool/Function Caller]
+        A4[Memory (Vector DB / Logs)]
+        A5[LLM (Used Internally)]
+        A6[Environment / Action Executor]
+
+        A1 --> A2
+        A2 --> A4
+        A2 --> A3
+        A2 --> A5
+        A3 --> A6
+        A5 --> A3
+    end
+
+    %% Styles
+    style LLM fill:#e3f2fd,stroke:#1976d2,color:#0d47a1,font-weight:bold
+    style Agent fill:#e8f5e9,stroke:#388e3c,color:#1b5e20,font-weight:bold
+```
+
+
+
 | Feature/Aspect              | LLM (Large Language Model)                         | AI Agent                                             |
 |----------------------------|----------------------------------------------------|------------------------------------------------------|
 | 🧠 Core Functionality       | Text generation, summarization, translation, Q&A   | Autonomous task execution using tools + context     |
