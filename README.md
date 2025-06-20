@@ -115,6 +115,84 @@ They often implement an **observe → think → act → loop** — giving them r
 
 ## Types of AI Agents
 
+                        +------------------------+
+                        |    Reactive Agent      |
+                        |------------------------|
+                        | • No memory            |
+                        | • Responds to input    |
+                        +------------------------+
+                                 |
+                                 v
+                        +------------------------+
+                        |  Tool-Using Agent       |
+                        |------------------------|
+                        | • Can call APIs/tools  |
+                        | • Uses function calling|
+                        +------------------------+
+                                 |
+                                 v
+                        +------------------------+
+                        |  Planning Agent         |
+                        |------------------------|
+                        | • Plans multi-step     |
+                        |   tasks (e.g. ReAct)   |
+                        | • Chains tool usage    |
+                        +------------------------+
+                                 |
+                                 v
+                        +------------------------+
+                        |  Memory-Augmented Agent |
+                        |------------------------|
+                        | • Retains past context |
+                        | • Learns over time     |
+                        | • Uses vector/graph DB |
+                        +------------------------+
+                                 |
+                                 v
+                        +------------------------+
+                        |   Autonomous Agent      |
+                        |------------------------|
+                        | • Self-directed goals  |
+                        | • Self-correcting loop |
+                        | • Observe → Think → Act|
+                        +------------------------+
+                                 |
+                                 v
+                        +------------------------+
+                        |    Multi-Agent System   |
+                        |------------------------|
+                        | • Multiple roles/agents|
+                        | • Collaborate via comms|
+                        | • Task routing & voting|
+                        +------------------------+
+
+
+```mermaid
+flowchart TD
+  A[Reactive Agent]:::basic --> B[Tool-Using Agent]:::tool
+  B --> C[Planning Agent]:::planning
+  C --> D[Memory-Augmented Agent]:::memory
+  D --> E[Autonomous Agent]:::autonomous
+  E --> F[Multi-Agent System]:::multi
+
+  classDef basic fill:#e0f7fa,stroke:#00796b,color:#004d40,font-weight:bold
+  classDef tool fill:#f1f8e9,stroke:#689f38,color:#33691e,font-weight:bold
+  classDef planning fill:#fff3e0,stroke:#f57c00,color:#e65100,font-weight:bold
+  classDef memory fill:#ede7f6,stroke:#673ab7,color:#4527a0,font-weight:bold
+  classDef autonomous fill:#fce4ec,stroke:#d81b60,color:#880e4f,font-weight:bold
+  classDef multi fill:#e3f2fd,stroke:#1976d2,color:#0d47a1,font-weight:bold
+```
+
+| 🧠 Agent Type              | 📋 Description                                                 | 🔑 Key Features                                        | 🧰 Example Tools/Frameworks             |
+|---------------------------|---------------------------------------------------------------|--------------------------------------------------------|-----------------------------------------|
+| **Reactive Agent**        | Basic "input → output" behavior with no memory or planning    | Stateless, prompt-based responses                      | Vanilla LLM (GPT-3.5, Claude, Gemini)   |
+| **Tool-Using Agent**      | Uses external tools/APIs via function or tool calling         | Tool invocation, basic planning                        | GPT-4 Function Calling, Claude Tools    |
+| **Planning Agent**        | Plans multi-step actions to accomplish a goal                 | Reasoning, task decomposition, step chaining           | AutoGPT, ReAct, LangChain Agents        |
+| **Memory-Augmented Agent**| Retains and recalls context from past interactions            | Long-term memory, vector/graph DB, context continuity  | LangGraph + Weaviate, Pinecone, MemGPT  |
+| **Autonomous Agent**      | Operates independently with feedback loops and goal tracking  | Self-correcting, autonomous execution, agent loop      | AutoGPT, Aomni, Voyager, OpenAgents     |
+| **Multi-Agent System**    | Coordinates multiple agents with specialized roles            | Communication, collaboration, task delegation          | CrewAI, MetaGPT, LangGraph Multi-Agent  |
+
+
 ### 1. **Reactive Agents**
 Simple agents that respond directly to stimuli without complex reasoning.
 
